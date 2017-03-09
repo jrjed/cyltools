@@ -11,9 +11,10 @@ import matplotlib.pyplot as plt
 import formatting
 
 
+
 def read_transactions(trans_file): 
     transactions_raw = pd.read_csv(trans_file, delimiter='\t') 
-    transactions = transactions_raw.apply(formatting.formatter)
+    transactions = transactions_raw.apply(formatting.col_formatter)
     return transactions
 
 
@@ -37,6 +38,7 @@ def count_tracking(transactions, cyl_type):
     plt.plot_date(formatting.date_format(cyl_trans['Date']),
                   cyl_trans['Ending Balance'], fmt='b-')
     plt.show()
+
 
 if __name__ == '__main__':
     # Add the following sections to individual python/batch scripts run from

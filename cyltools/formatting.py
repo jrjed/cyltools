@@ -6,6 +6,17 @@ managable format
 import re
 import datetime
 
+import prettytable as pt
+
+
+def col_formatter(column):
+    '''
+    Converts elements of a column to stripped strings and corrects
+    placement of minus sign
+    '''
+    return [fix_neg(str(x).strip()) for x in column]
+
+
 def date_format(dates, strip_pattern='%m/%d/%Y'):
     '''
     Creates datetime objects from dates in the dataset
@@ -23,10 +34,19 @@ def fix_neg(s):
     else:
         return s
 
+def pretty_print(dataframe, keys=[]):
+    '''
+    Prints contents of dataframe.
+    '''
+    df_keys = list(dataframe.keys())
+    if not keys:
+        keys = df_keys
 
-def formatter(column):
-    '''
-    Converts elements of a column to stripped strings and corrects
-    placement of minus sign
-    '''
-    return [fix_neg(str(x).strip()) for x in column]
+    t = pt.PrettyTable(keys, 
+                       header_style='title',
+                       hrules=pt.HEADER,
+                       align='center')
+    for i, row in dataframe.iterrows():
+        t.add_row(row)
+    print(t)
+
